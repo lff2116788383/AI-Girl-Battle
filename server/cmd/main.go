@@ -40,6 +40,8 @@ func main() {
 	wxService := service.NewWxService(cfg)
 	userHandler := handler.NewUserHandler(userService, wxService)
 	configHandler := handler.NewConfigHandler(configService)
+	battleService := service.NewBattleService(db, configService)
+	battleHandler := handler.NewBattleHandler(battleService)
 
 	// JWT 中间件初始化
 	middleware.InitAuth(cfg)
@@ -53,7 +55,7 @@ func main() {
 	r.Use(middleware.Logger())
 	r.Use(middleware.Recovery())
 
-	setupRoutes(r, userHandler, configHandler, cfg.AdminToken)
+	setupRoutes(r, userHandler, configHandler, battleHandler, cfg.AdminToken)
 
 	log.Printf("AI中转站服务器启动在端口 %s（DB=%s）", cfg.Server.Port, cfg.Database.Driver)
 	if err := r.Run(":" + cfg.Server.Port); err != nil {
@@ -61,7 +63,7 @@ func main() {
 	}
 }
 
-func setupRoutes(r *gin.Engine, userHandler *handler.UserHandler, configHandler *handler.ConfigHandler, adminToken string) {
+func setupRoutes(r *gin.Engine, userHandler *handler.UserHandler, configHandler *handler.ConfigHandler, battleHandler *handler.BattleHandler, adminToken string) {
 	v1 := r.Group("/api/v1")
 
 	// 认证
@@ -88,6 +90,16 @@ func setupRoutes(r *gin.Engine, userHandler *handler.UserHandler, configHandler 
 		cfgGroup.GET("/all", configHandler.GetAll)
 		cfgGroup.GET("/:key", configHandler.GetKey)
 		cfgGroup.PUT("/:key", middleware.AdminAuth(adminToken), configHandler.UpsertKey)
+	}
+
+	// PVE 战斗 + 捕获
+	battle := v1.Group("/battle")
+	battle.Use(middleware.Auth())
+	{
+		battle.GET("/levels", battleHandler.ListLevels)
+		battle.POST("/pve", battleHandler.PVE)
+		battle.POST("/capture/:id", battleHandler.Capture)
+		battle.GET("/record/:id", battleHandler.GetRecord)
 	}
 
 	// 健康检查

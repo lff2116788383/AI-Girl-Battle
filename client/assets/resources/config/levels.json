@@ -1,0 +1,286 @@
+{
+  "comment": "PVE 关卡表 v0 —— 5+1 麻烦关卡。敌方阵容服务端权威；奖励 coins/tokens/feed/ice_packs 直接映射 User 字段。玩家阵容由客户端提交（宠物存档暂为 blob，严格校验待宠物入库后启用）。",
+  "levels": [
+    {
+      "id": "lv01",
+      "name": "跑丢的旧模型",
+      "desc": "一台多年前的旧 AI 娘在中转站门口徘徊，型号早就停产了。送回去前先『劝』一下。",
+      "order": 1,
+      "captureSpecies": "deepseek_niang_3",
+      "captureRate": 0.35,
+      "rewards": {
+        "coins": 50
+      },
+      "enemies": [
+        {
+          "speciesId": "deepseek_niang_3",
+          "name": "旧模型",
+          "element": "compute",
+          "stats": {
+            "compute": 40,
+            "bandwidth": 45,
+            "stability": 50,
+            "cooling": 60
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ],
+          "uid": "lv01_e0"
+        }
+      ]
+    },
+    {
+      "id": "lv02",
+      "name": "赖着不走的缓存幽灵",
+      "desc": "两团陈年缓存堆积成精，会复制你的招式赖在内存里不走。",
+      "order": 2,
+      "captureSpecies": "",
+      "captureRate": 0,
+      "rewards": {
+        "coins": 80,
+        "feed": 10
+      },
+      "enemies": [
+        {
+          "speciesId": "deepseek_niang",
+          "name": "缓存幽灵·热",
+          "element": "network",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 65,
+            "stability": 60,
+            "cooling": 70
+          },
+          "skills": [
+            "cache_sweep",
+            "stream_reply",
+            "ws_keepalive"
+          ],
+          "uid": "lv02_e0"
+        },
+        {
+          "speciesId": "deepseek_niang",
+          "name": "缓存幽灵·冷",
+          "element": "network",
+          "stats": {
+            "compute": 52,
+            "bandwidth": 62,
+            "stability": 58,
+            "cooling": 68
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep"
+          ],
+          "uid": "lv02_e1"
+        }
+      ]
+    },
+    {
+      "id": "lv03",
+      "name": "做窝的野生小AI",
+      "desc": "一只散热天赋极好的野生 AI 娘在你的风扇旁搭了窝。打赢了可以试着收留它。",
+      "order": 3,
+      "captureSpecies": "deepseek_niang_2",
+      "captureRate": 0.55,
+      "rewards": {
+        "coins": 100
+      },
+      "enemies": [
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "野生小AI",
+          "element": "hardware",
+          "stats": {
+            "compute": 50,
+            "bandwidth": 45,
+            "stability": 70,
+            "cooling": 95
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "checkpoint_restore"
+          ],
+          "uid": "lv03_e0"
+        }
+      ]
+    },
+    {
+      "id": "lv04",
+      "name": "被啃的电线残局",
+      "desc": "三只电线精把备用电缆啃得乱七八糟，清完这一波才好修电闸。",
+      "order": 4,
+      "captureSpecies": "",
+      "captureRate": 0,
+      "rewards": {
+        "coins": 150,
+        "ice_packs": 1
+      },
+      "enemies": [
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "电线精·甲",
+          "element": "hardware",
+          "stats": {
+            "compute": 58,
+            "bandwidth": 50,
+            "stability": 72,
+            "cooling": 78
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow"
+          ],
+          "uid": "lv04_e0"
+        },
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "电线精·乙",
+          "element": "hardware",
+          "stats": {
+            "compute": 56,
+            "bandwidth": 52,
+            "stability": 70,
+            "cooling": 76
+          },
+          "skills": [
+            "log_rotate",
+            "ws_keepalive"
+          ],
+          "uid": "lv04_e1"
+        },
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "电线精·丙",
+          "element": "hardware",
+          "stats": {
+            "compute": 60,
+            "bandwidth": 48,
+            "stability": 74,
+            "cooling": 80
+          },
+          "skills": [
+            "cool_blow",
+            "log_rotate"
+          ],
+          "uid": "lv04_e2"
+        }
+      ]
+    },
+    {
+      "id": "lv05",
+      "name": "隔壁站捣乱的租用宠物",
+      "desc": "隔壁中转站借调出去的临时工跑过来偷算力，打赢了掉信誉——是它的，不是你的。",
+      "order": 5,
+      "captureSpecies": "rental_whale",
+      "captureRate": 0.25,
+      "rewards": {
+        "coins": 200,
+        "tokens": 15
+      },
+      "enemies": [
+        {
+          "speciesId": "rental_whale",
+          "name": "捣乱临时工",
+          "element": "anomaly",
+          "stats": {
+            "compute": 65,
+            "bandwidth": 60,
+            "stability": 68,
+            "cooling": 80
+          },
+          "skills": [
+            "err_inject",
+            "null_deref",
+            "cache_sweep"
+          ],
+          "uid": "lv05_e0"
+        },
+        {
+          "speciesId": "deepseek_niang",
+          "name": "临时工的帮手",
+          "element": "network",
+          "stats": {
+            "compute": 60,
+            "bandwidth": 58,
+            "stability": 66,
+            "cooling": 75
+          },
+          "skills": [
+            "ws_keepalive",
+            "stream_reply",
+            "cache_sweep"
+          ],
+          "uid": "lv05_e1"
+        }
+      ]
+    },
+    {
+      "id": "lv06",
+      "name": "断电复活的古董程序",
+      "desc": "电闸跳闸的深夜，机房深处一台古董机器自己醒了过来。它的稳定极高、速度极慢，硬拼算力是下策——用异常系磨死它，或者用散热拖垮它。",
+      "order": 6,
+      "captureSpecies": "",
+      "captureRate": 0,
+      "rewards": {
+        "coins": 500,
+        "tokens": 30
+      },
+      "enemies": [
+        {
+          "speciesId": "deepseek_niang",
+          "name": "古董程序",
+          "element": "anomaly",
+          "stats": {
+            "compute": 70,
+            "bandwidth": 30,
+            "stability": 95,
+            "cooling": 120
+          },
+          "skills": [
+            "gpu_burst",
+            "err_inject",
+            "checkpoint_restore"
+          ],
+          "uid": "lv06_e0"
+        },
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "古董护卫·左",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 40,
+            "stability": 78,
+            "cooling": 85
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ],
+          "uid": "lv06_e1"
+        },
+        {
+          "speciesId": "deepseek_niang_2",
+          "name": "古董护卫·右",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 40,
+            "stability": 78,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "log_rotate",
+            "cool_blow"
+          ],
+          "uid": "lv06_e2"
+        }
+      ]
+    }
+  ]
+}

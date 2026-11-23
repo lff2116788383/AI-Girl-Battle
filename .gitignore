@@ -13,3 +13,6 @@ client/native/
 tools/crosscheck/.tmp/
 tools/crosscheck/node_modules/
 tools/crosscheck/fixtures-stress.json
+
+# 服务端构建产物
+server/tg-server.exe

@@ -11,8 +11,8 @@ export interface PetStats {
     cooling: number;    // 散热 = 耐久/状态抗性
 }
 
-/** 宠物运行时状态 */
-export type PetStatus = 'normal' | 'hungry' | 'overheat' | 'sad';
+/** 宠物运行时状态（rent_left = 租用离场，保留记录不参与负载/结算） */
+export type PetStatus = 'normal' | 'hungry' | 'overheat' | 'sad' | 'rent_left';
 
 /** 宠物来源：部署（长期培养）/ 租用（有租期） */
 export type PetSource = 'deploy' | 'rent';

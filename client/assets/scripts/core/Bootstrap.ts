@@ -1,5 +1,6 @@
 import { director, Director, game, Game, Node } from 'cc';
 import { HomeUI } from '../ui/HomeUI';
+import { BattleUI } from '../ui/BattleUI';
 import { WxAdapter } from './WxAdapter';
 
 /**
@@ -19,6 +20,8 @@ game.on(Game.EVENT_GAME_INITED, () => {
         const root = new Node('HomeRoot');
         (canvas ?? scene).addChild(root);
         root.addComponent(HomeUI);
-        console.log('[Bootstrap] HomeUI 已挂载至', canvas ? 'Canvas' : 'Scene', '，家园系统启动');
+        // W3：战斗界面常驻（默认隐藏），由 HomeUI 的「处理麻烦」按钮唤起
+        BattleUI.create(canvas ?? scene);
+        console.log('[Bootstrap] HomeUI 已挂载至', canvas ? 'Canvas' : 'Scene', '，家园系统启动（BattleUI 就绪）');
     });
 });

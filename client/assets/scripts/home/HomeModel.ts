@@ -1,7 +1,7 @@
 import { SaveManager } from '../core/SaveManager';
 import { ConfigManager } from '../core/ConfigManager';
 import { NetManager } from '../core/NetManager';
-import { PetData, PetStatus, SpeciesDef, makePet } from '../pet/PetData';
+import { PetData, PetStatus, SpeciesDef, PetSource, makePet } from '../pet/PetData';
 import { FacilityLevels, Resources, SettlementConfig, SettlementInput, SettlementResult, computeSettlement } from './SettlementEngine';
 
 /**
@@ -64,7 +64,8 @@ export class HomeModel {
         }
 
         // 设施定义
-        for (const key of ['dormitory', 'power', 'fan', 'kitchen']) {
+        const facKeys: (keyof FacilityLevels)[] = ['dormitory', 'power', 'fan', 'kitchen'];
+        for (const key of facKeys) {
             const d = fac[key];
             this.facilityDefs[key] = { key, name: d.name, desc: d.desc, levels: d.levels };
         }

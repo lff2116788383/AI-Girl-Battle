@@ -127,7 +127,7 @@ export class NetManager {
 
     // ---------------- 配置中心 ----------------
 
-    public static async fetchConfig(): Promise<{ configVersion: number; configs: any } | null> {
+    public static async fetchConfig(): Promise<{ config_version: number; configs: any } | null> {
         try {
             const resp = await WxAdapter.requestRaw(`${NetManager.base}/api/v1/config/all`, 'GET', null, null);
             if (resp.status === 200 && resp.body && resp.body.configs) {
@@ -135,5 +135,32 @@ export class NetManager {
             }
         } catch (e) { /* 离线，由 ConfigManager 兜底 */ }
         return null;
+    }
+
+    // ---------------- PVE 战斗（W3） ----------------
+
+    /** 关卡列表（服务端权威；离线由 ConfigManager 垫脚片兜底） */
+    public static async battleLevels(): Promise<any[] | null> {
+        try {
+            const resp = await NetManager.request('GET', '/api/v1/battle/levels');
+            if (resp && resp.data) return resp.data;
+        } catch (e) {
+            console.warn('[Net] 关卡列表拉取失败:', e);
+        }
+        return null;
+    }
+
+    /** 整场托管战斗：服务端 Go 引擎重放 → 权威结果+奖励+战报 */
+    public static async battlePVE(payload: { levelId: string; seed: number; party: any[]; commands: any[][] }): Promise<any> {
+        const resp = await NetManager.request('POST', '/api/v1/battle/pve', payload);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '战斗响应异常');
+        return resp.data;
+    }
+
+    /** 捕获结算（PVE 胜利后一次性掷骰锁定） */
+    public static async capturePet(recordId: number): Promise<{ captured: boolean; speciesId: string }> {
+        const resp = await NetManager.request('POST', `/api/v1/battle/capture/${recordId}`);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '捕获响应异常');
+        return resp.data;
     }
 }

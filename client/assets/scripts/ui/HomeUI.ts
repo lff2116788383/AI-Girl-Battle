@@ -6,6 +6,7 @@ import { UIBuilder } from './UIBuilder';
 import { WxAdapter } from '../core/WxAdapter';
 import { NetManager } from '../core/NetManager';
 import { ConfigManager } from '../core/ConfigManager';
+import { BattleUI } from './BattleUI';
 
 const { ccclass } = _decorator;
 
@@ -90,6 +91,8 @@ export class HomeUI extends Component {
 
         // ---- 底部：操作区 + 日志 ----
         const by = -H / 2 + 240;
+        UIBuilder.button('btn_battle', this.node, 210, 64, -230, by + 80, '处理麻烦 ⚔',
+            () => { if (BattleUI.instance) BattleUI.instance.show(); }, new Color(140, 70, 140, 255));
         UIBuilder.button('btn_preview', this.node, 210, 64, -230, by, '结算预览',
             () => this.onPreview(), new Color(80, 140, 90, 255));
         UIBuilder.button('btn_settle', this.node, 210, 64, 10, by, '执行每日结算',
@@ -105,7 +108,7 @@ export class HomeUI extends Component {
             ` · 配置来源:${ConfigManager.source}v${ConfigManager.configVersion}`,
             22, 0, -H / 2 + 150, new Color(190, 195, 210, 255), W - 60);
         this.logLabel = logNode.getComponent(Label);
-        this.logLabel.overflow = Label.Overflow.HEIGHT_ALIGNMENT;
+        this.logLabel.overflow = Label.Overflow.CLAMP;
         this.logLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
 
         // 跳闸遮罩（默认隐藏）

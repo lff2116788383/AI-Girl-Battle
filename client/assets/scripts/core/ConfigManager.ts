@@ -45,13 +45,17 @@ export class ConfigManager {
 
         // 3. 垫脚片
         try {
-            const [fac, pets, set] = await Promise.all([
+            const [fac, pets, set, levels, battleRules] = await Promise.all([
                 ConfigManager.loadJson('config/facilities'),
                 ConfigManager.loadJson('config/pets'),
                 ConfigManager.loadJson('config/settlement'),
+                ConfigManager.loadJson('config/levels').catch(() => null),
+                ConfigManager.loadJson('config/battle-rules').catch(() => null),
             ]);
             ConfigManager.apply({
                 facilities: fac.json, pets: pets.json, settlement: set.json,
+                levels: levels ? levels.json : null,
+                'battle-rules': battleRules ? battleRules.json : null,
             }, 0, 'fallback');
         } catch (e) {
             console.error('[Config] 垫脚片也加载失败，家园系统不可用:', e);

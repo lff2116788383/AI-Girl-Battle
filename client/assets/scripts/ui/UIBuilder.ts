@@ -42,16 +42,14 @@ export class UIBuilder {
         return n;
     }
 
-    /** 按钮：色块 + 文本 + 点击回调 */
+    /** 按钮：色块 + 文本 + 点击回调。
+     * ⚠ 文本必须放子节点 —— Cocos 同节点多个 Renderable 组件（Graphics+Label）只有第一个会被渲染。 */
     public static button(name: string, parent: Node, w: number, h: number, x: number, y: number,
         text: string, onClick: () => void, bg = new Color(70, 130, 200, 255)): Node {
         const n = UIBuilder.panel(name, parent, w, h, x, y, bg);
-        const l = n.addComponent(Label);
-        l.string = text;
-        l.fontSize = Math.floor(h * 0.42);
-        l.color = Color.WHITE;
-        l.horizontalAlign = Label.HorizontalAlign.CENTER;
-        l.verticalAlign = Label.VerticalAlign.CENTER;
+        const lb = UIBuilder.label(name + '_lb', n, text, Math.floor(h * 0.42), 0, 0, Color.WHITE, w);
+        lb.getComponent(Label).horizontalAlign = Label.HorizontalAlign.CENTER;
+        lb.getComponent(Label).verticalAlign = Label.VerticalAlign.CENTER;
         n.on(Node.EventType.TOUCH_END, () => { onClick(); });
         return n;
     }
