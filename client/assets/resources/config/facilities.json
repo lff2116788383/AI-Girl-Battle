@@ -1,0 +1,35 @@
+{
+  "comment": "家园四设施等级表 v0 —— capacity 为容量语义，production 为产能语义",
+  "dormitory": {
+    "name": "宿舍",
+    "desc": "部署AI娘的床位",
+    "levels": [
+      { "lv": 1, "beds": 2, "upgradeCost": { "gold": 0 } },
+      { "lv": 2, "beds": 4, "upgradeCost": { "gold": 500 } }
+    ]
+  },
+  "power": {
+    "name": "电闸",
+    "desc": "全站用电上限，租用也占电",
+    "levels": [
+      { "lv": 1, "supply": 300, "upgradeCost": { "gold": 400 } },
+      { "lv": 2, "supply": 500, "upgradeCost": { "gold": 900 } }
+    ]
+  },
+  "fan": {
+    "name": "风扇",
+    "desc": "散热容量，不足则过热宕机",
+    "levels": [
+      { "lv": 1, "cooling": 100, "upgradeCost": { "gold": 400 } },
+      { "lv": 2, "cooling": 180, "upgradeCost": { "gold": 850 } }
+    ]
+  },
+  "kitchen": {
+    "name": "小厨房",
+    "desc": "算力饲料产能",
+    "levels": [
+      { "lv": 1, "foodPerDay": 20, "upgradeCost": { "gold": 300 } },
+      { "lv": 2, "foodPerDay": 40, "upgradeCost": { "gold": 700 } }
+    ]
+  }
+}

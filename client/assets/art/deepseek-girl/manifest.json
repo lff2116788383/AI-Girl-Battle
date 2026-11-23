@@ -1,0 +1,83 @@
+{
+  "cell": [
+    192,
+    208
+  ],
+  "source": "codex-pet-DeepSeek-girl",
+  "author": "xpy12367 (CC License见原仓库)",
+  "states": {
+    "idle": {
+      "frames": 7,
+      "fps": 6,
+      "files": [
+        "idle_0.png",
+        "idle_1.png",
+        "idle_2.png",
+        "idle_3.png",
+        "idle_4.png",
+        "idle_5.png",
+        "idle_6.png"
+      ]
+    },
+    "waving": {
+      "frames": 4,
+      "fps": 6,
+      "files": [
+        "waving_0.png",
+        "waving_1.png",
+        "waving_2.png",
+        "waving_3.png"
+      ]
+    },
+    "jumping": {
+      "frames": 5,
+      "fps": 6,
+      "files": [
+        "jumping_0.png",
+        "jumping_1.png",
+        "jumping_2.png",
+        "jumping_3.png",
+        "jumping_4.png"
+      ]
+    },
+    "failed": {
+      "frames": 8,
+      "fps": 6,
+      "files": [
+        "failed_0.png",
+        "failed_1.png",
+        "failed_2.png",
+        "failed_3.png",
+        "failed_4.png",
+        "failed_5.png",
+        "failed_6.png",
+        "failed_7.png"
+      ]
+    },
+    "waiting": {
+      "frames": 6,
+      "fps": 6,
+      "files": [
+        "waiting_0.png",
+        "waiting_1.png",
+        "waiting_2.png",
+        "waiting_3.png",
+        "waiting_4.png",
+        "waiting_5.png"
+      ]
+    },
+    "review": {
+      "frames": 6,
+      "fps": 6,
+      "files": [
+        "review_0.png",
+        "review_1.png",
+        "review_2.png",
+        "review_3.png",
+        "review_4.png",
+        "review_5.png"
+      ]
+    }
+  },
+  "full_sheet": "spritesheet_full.png"
+}

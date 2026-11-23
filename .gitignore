@@ -1,0 +1,10 @@
+# Cocos
+client/library/
+client/temp/
+client/local/
+client/build/
+client/profiles/
+client/native/
+# 系统与临时
+.DS_Store
+*.log
