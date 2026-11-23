@@ -1,0 +1,55 @@
+{
+  "comment": "种族表 v0 —— MVP 首批 4 只 AI娘，美术暂全部使用 DeepSeek娘 素材（切片见 art/deepseek-girl）",
+  "species": {
+    "deepseek_niang": {
+      "name": "DeepSeek娘",
+      "desc": "蓝发鲸鱼女仆：可爱温柔、工作认真，失败时有点慌张，用鲸尾表达情绪。",
+      "rarity": 3,
+      "element": "网络",
+      "art": "deepseek-girl",
+      "baseStats": { "compute": 62, "bandwidth": 58, "stability": 70, "cooling": 85 },
+      "skillPool": ["ws_keepalive", "cache_sweep", "stream_reply"],
+      "captureRate": 0.35
+    },
+    "deepseek_niang_2": {
+      "name": "DeepSeek娘·勤务班",
+      "desc": "轮值早班的鲸鱼女仆，散热天赋尤其出色。",
+      "rarity": 3,
+      "element": "硬件",
+      "art": "deepseek-girl",
+      "baseStats": { "compute": 55, "bandwidth": 52, "stability": 74, "cooling": 92 },
+      "skillPool": ["ws_keepalive", "log_rotate", "cool_blow"],
+      "captureRate": 0.35
+    },
+    "deepseek_niang_3": {
+      "name": "DeepSeek娘·实习",
+      "desc": "刚部署的新人，算力还在成长期。",
+      "rarity": 2,
+      "element": "算力",
+      "art": "deepseek-girl",
+      "baseStats": { "compute": 48, "bandwidth": 60, "stability": 58, "cooling": 70 },
+      "skillPool": ["ws_keepalive", "token_count"],
+      "captureRate": 0.5
+    },
+    "rental_whale": {
+      "name": "租用·鲸鲸",
+      "desc": "外站借调的临时工，到期就走，零售后。",
+      "rarity": 1,
+      "element": "异常",
+      "art": "deepseek-girl",
+      "baseStats": { "compute": 50, "bandwidth": 55, "stability": 60, "cooling": 65 },
+      "skillPool": ["ws_keepalive"],
+      "captureRate": 0,
+      "rentOnly": true
+    }
+  },
+  "upkeep": {
+    "powerPerDeployed": 80,
+    "powerPerRented": 60,
+    "heatPerDeployed": 40,
+    "heatPerRented": 30,
+    "foodPerDeployed": 5,
+    "wagePerRented": 10,
+    "goldPerPowerUnit": 1
+  }
+}

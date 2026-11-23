@@ -1,0 +1,20 @@
+{
+  "comment": "每日维护结算数值 v0 —— 对应方案文档 §2.6，服务端实现时以此表为单一来源",
+  "settlement": {
+    "maxOfflineDays": 3,
+    "offlineGoldPerDay": 50,
+    "tripHaltHours": 24,
+    "moodDecayNoBed": 10,
+    "moodSadThreshold": 30,
+    "foodLackStatus": "hungry",
+    "heatOverloadStatus": "overheat",
+    "adOfflineMultiplier": 2
+  },
+  "initialResources": {
+    "gold": 1000,
+    "token": 50,
+    "food": 60,
+    "parts": 0,
+    "coolPads": 1
+  }
+}
