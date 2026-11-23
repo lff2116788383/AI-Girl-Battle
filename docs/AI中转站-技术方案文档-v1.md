@@ -453,5 +453,5 @@ BattlePresenter
 2. ☐ Go 后端 fork：骨架 + 登录 + 云存档 + **配置中心 /config（数值表入库，服务端权威）**（W1）
 3. ☐ 客户端 ConfigManager：configVersion 比对 → 拉取/缓存 → 垫脚片兜底（W1，替代直读本地 JSON）
 4. ☐ 客户端 WxAdapter 四件套 + 双构建验收（W1）
-5. ☐ 战斗规则引擎 TS 版 + Go 版 + 对拍用例（W2）
+5. ☑ 战斗规则引擎 TS 版 + Go 版 + 对拍用例（W2，206 场对拍全通过）
 6. ☐ 首批 3 只 AI 娘人设需求单（并行）

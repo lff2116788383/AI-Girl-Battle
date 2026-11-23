@@ -8,3 +8,8 @@ client/native/
 # 系统与临时
 .DS_Store
 *.log
+
+# 对拍工具临时产物
+tools/crosscheck/.tmp/
+tools/crosscheck/node_modules/
+tools/crosscheck/fixtures-stress.json

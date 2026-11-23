@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "comment": "战斗规则表 v0 —— TS/Go 双端引擎的单一数据来源。修改任何数值必须重跑 tools/crosscheck 对拍。克制为环状：算力克网络克硬件克异常克算力。",
+  "elements": ["compute", "network", "hardware", "anomaly"],
+  "elementLabels": { "compute": "算力", "network": "网络", "hardware": "硬件", "anomaly": "异常" },
+  "typeChart": {
+    "compute":  { "compute": 1.0, "network": 2.0, "hardware": 0.5, "anomaly": 1.0 },
+    "network":  { "compute": 0.5, "network": 1.0, "hardware": 2.0, "anomaly": 1.0 },
+    "hardware": { "compute": 1.0, "network": 0.5, "hardware": 1.0, "anomaly": 2.0 },
+    "anomaly":  { "compute": 2.0, "network": 1.0, "hardware": 0.5, "anomaly": 1.0 }
+  },
+  "damage": {
+    "powerDivisor": 50,
+    "flatBonus": 2,
+    "randMin": 0.85,
+    "randSpan": 0.15,
+    "defenseDivisor": 3,
+    "minDamage": 1
+  },
+  "hp": { "coolingFactor": 6 },
+  "turn": {
+    "maxTurns": 50,
+    "switchPriority": 6,
+    "maxPartySize": 3,
+    "maxSkillsPerPet": 3
+  },
+  "buff": {
+    "attackUpCap": 1.0,
+    "shieldCap": 0.8
+  },
+  "skills": {
+    "ws_keepalive":       { "name": "心跳保活",   "element": "network",  "category": "attack",  "power": 45, "ppMax": 20, "priority": 0,  "accuracy": 100, "effect": null },
+    "cache_sweep":        { "name": "缓存清扫",   "element": "network",  "category": "attack",  "power": 60, "ppMax": 12, "priority": 0,  "accuracy": 100, "effect": null },
+    "stream_reply":       { "name": "流式回复",   "element": "network",  "category": "attack",  "power": 35, "ppMax": 16, "priority": 1,  "accuracy": 100, "effect": null },
+    "gpu_burst":          { "name": "GPU突击",    "element": "compute",  "category": "attack",  "power": 75, "ppMax": 8,  "priority": -1, "accuracy": 100, "effect": null },
+    "token_count":        { "name": "Token计数",  "element": "compute",  "category": "attack",  "power": 40, "ppMax": 20, "priority": 0,  "accuracy": 100, "effect": null },
+    "log_rotate":         { "name": "日志轮转",   "element": "hardware", "category": "attack",  "power": 50, "ppMax": 15, "priority": 0,  "accuracy": 100, "effect": null },
+    "err_inject":         { "name": "异常注入",   "element": "anomaly",  "category": "attack",  "power": 50, "ppMax": 15, "priority": 0,  "accuracy": 100, "effect": null },
+    "null_deref":         { "name": "空指针乱舞", "element": "anomaly",  "category": "attack",  "power": 55, "ppMax": 12, "priority": 0,  "accuracy": 100, "effect": null },
+    "cool_blow":          { "name": "清风散热",   "element": "hardware", "category": "defense", "power": 0,  "ppMax": 10, "priority": 1,  "accuracy": 100, "effect": { "kind": "shield", "value": 0.35, "turns": 2 } },
+    "overclock":          { "name": "超频冲刺",   "element": "compute",  "category": "status",  "power": 0,  "ppMax": 8,  "priority": 0,  "accuracy": 100, "effect": { "kind": "attackUp", "value": 0.3, "turns": 3 } },
+    "checkpoint_restore": { "name": "断点续传",   "element": "hardware", "category": "defense", "power": 0,  "ppMax": 5,  "priority": 0,  "accuracy": 100, "effect": { "kind": "heal", "ratio": 0.3 } }
+  }
+}

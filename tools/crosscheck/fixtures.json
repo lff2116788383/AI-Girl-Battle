@@ -1,0 +1,3657 @@
+{
+  "comment": "TS/Go 对拍用例 —— 由 tools/crosscheck/gen-fixtures.js 生成，勿手改",
+  "cases": [
+    {
+      "name": "case-01-basic",
+      "seed": 42,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(01)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s0p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(02)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(11)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s1p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(12)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "name": "case-02-switch-heavy",
+      "seed": 12345,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(01)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s0p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(02)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "overclock",
+            "checkpoint_restore",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(11)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "cool_blow",
+            "log_rotate"
+          ]
+        },
+        {
+          "uid": "s1p2_rental_whale",
+          "speciesId": "rental_whale",
+          "name": "租用·鲸鲸(12)",
+          "element": "anomaly",
+          "stats": {
+            "compute": 50,
+            "bandwidth": 55,
+            "stability": 60,
+            "cooling": 65
+          },
+          "skills": [
+            "err_inject",
+            "null_deref"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 2
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    {
+      "name": "case-03-pp-exhaust",
+      "seed": 777,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(01)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s0p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(02)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(11)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s1p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(12)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    {
+      "name": "case-04-buff-shield",
+      "seed": 9999999,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "overclock",
+            "checkpoint_restore",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(01)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "cool_blow",
+            "log_rotate"
+          ]
+        },
+        {
+          "uid": "s0p2_rental_whale",
+          "speciesId": "rental_whale",
+          "name": "租用·鲸鲸(02)",
+          "element": "anomaly",
+          "stats": {
+            "compute": 50,
+            "bandwidth": 55,
+            "stability": 60,
+            "cooling": 65
+          },
+          "skills": [
+            "err_inject",
+            "null_deref"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "overclock",
+            "checkpoint_restore",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(11)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "cool_blow",
+            "log_rotate"
+          ]
+        },
+        {
+          "uid": "s1p2_rental_whale",
+          "speciesId": "rental_whale",
+          "name": "租用·鲸鲸(12)",
+          "element": "anomaly",
+          "stats": {
+            "compute": 50,
+            "bandwidth": 55,
+            "stability": 60,
+            "cooling": 65
+          },
+          "skills": [
+            "err_inject",
+            "null_deref"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    {
+      "name": "case-05-mirror-tie",
+      "seed": 1,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "gpu_burst",
+            "overclock"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(01)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p2_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(02)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "gpu_burst",
+            "overclock"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(11)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p2_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(12)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    {
+      "name": "case-06-long-war",
+      "seed": 20261123,
+      "sideA": [
+        {
+          "uid": "s0p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(00)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "ws_keepalive",
+            "cache_sweep",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s0p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(01)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "log_rotate",
+            "cool_blow",
+            "ws_keepalive"
+          ]
+        },
+        {
+          "uid": "s0p2_deepseek_niang_3",
+          "speciesId": "deepseek_niang_3",
+          "name": "DeepSeek娘·实习(02)",
+          "element": "compute",
+          "stats": {
+            "compute": 48,
+            "bandwidth": 60,
+            "stability": 58,
+            "cooling": 70
+          },
+          "skills": [
+            "token_count",
+            "ws_keepalive"
+          ]
+        }
+      ],
+      "sideB": [
+        {
+          "uid": "s1p0_deepseek_niang",
+          "speciesId": "deepseek_niang",
+          "name": "DeepSeek娘(10)",
+          "element": "network",
+          "stats": {
+            "compute": 62,
+            "bandwidth": 58,
+            "stability": 70,
+            "cooling": 85
+          },
+          "skills": [
+            "overclock",
+            "checkpoint_restore",
+            "stream_reply"
+          ]
+        },
+        {
+          "uid": "s1p1_deepseek_niang_2",
+          "speciesId": "deepseek_niang_2",
+          "name": "DeepSeek娘·勤务班(11)",
+          "element": "hardware",
+          "stats": {
+            "compute": 55,
+            "bandwidth": 52,
+            "stability": 74,
+            "cooling": 92
+          },
+          "skills": [
+            "cool_blow",
+            "log_rotate"
+          ]
+        },
+        {
+          "uid": "s1p2_rental_whale",
+          "speciesId": "rental_whale",
+          "name": "租用·鲸鲸(12)",
+          "element": "anomaly",
+          "stats": {
+            "compute": 50,
+            "bandwidth": 55,
+            "stability": 60,
+            "cooling": 65
+          },
+          "skills": [
+            "err_inject",
+            "null_deref"
+          ]
+        }
+      ],
+      "commands": [
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "switch",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "skill",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 1
+          },
+          {
+            "kind": "switch",
+            "index": 1
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 0
+          },
+          {
+            "kind": "skill",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "kind": "skill",
+            "index": 2
+          },
+          {
+            "kind": "skill",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  ]
+}
