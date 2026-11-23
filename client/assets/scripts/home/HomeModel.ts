@@ -130,7 +130,7 @@ export class HomeModel {
             ['deepseek_niang_3', '鲸尾', 'deploy', 0],
             ['rental_whale', '租用·鲸鲸', 'rent', 7],
         ];
-        this.pets = lineup.map(([sid, name, src, days]) => makePet(this.species[sid], name, src, days));
+        this.pets = lineup.map(([sid, name, src, days]) => makePet(this.species[sid], name, src, days, sid));
         this.persist();
     }
 

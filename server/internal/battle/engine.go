@@ -8,6 +8,25 @@ import "math"
 type BattleOutput struct {
 	Frames []Frame
 	Result BattleResult
+	// 每回合末全场快照（交互式战斗逐回合推进用），与 TS 端逐位对拍
+	Snapshots []TurnSnapshot `json:"snapshots"`
+}
+
+// SnapshotPet 单宠回合末状态快照
+type SnapshotPet struct {
+	UID    string    `json:"uid"`
+	Side   int       `json:"side"`
+	Slot   int       `json:"slot"`
+	HP     float64   `json:"hp"`
+	PP     []float64 `json:"pp"`
+	Active bool      `json:"active"`
+}
+
+// TurnSnapshot 回合末全场快照
+type TurnSnapshot struct {
+	Turn   int           `json:"turn"`
+	Pets   []SnapshotPet `json:"pets"`
+	Winner int           `json:"winner"` // -1=进行中；0/1=终局
 }
 
 type frameEvtType string
@@ -97,6 +116,7 @@ func RunBattle(seed uint32, rules *BattleRules, sideA, sideB []PetInput, command
 		makeParty(sideB, rules),
 	}
 	var frames []Frame
+	var snapshots []TurnSnapshot
 	seq := 0
 	winner := -1
 	playedTurns := 0
@@ -111,6 +131,25 @@ func RunBattle(seed uint32, rules *BattleRules, sideA, sideB []PetInput, command
 		}
 		frames = append(frames, f)
 		seq++
+	}
+
+	// 回合末全场快照（不影响 PRNG：纯读取状态），与 TS 端逐位对应
+	pushSnapshot := func(turn, finalWinner int) {
+		snap := TurnSnapshot{Turn: turn, Pets: make([]SnapshotPet, 0, 6), Winner: finalWinner}
+		for sideIdx := 0; sideIdx < 2; sideIdx++ {
+			side := sides[sideIdx]
+			cur := activeIndex(side)
+			for i := range side {
+				p := &side[i]
+				ppCopy := make([]float64, len(p.PP))
+				copy(ppCopy, p.PP)
+				snap.Pets = append(snap.Pets, SnapshotPet{
+					UID: p.UID, Side: sideIdx, Slot: i, HP: p.HP,
+					PP: ppCopy, Active: p.Alive && i == cur,
+				})
+			}
+		}
+		snapshots = append(snapshots, snap)
 	}
 
 	// 被打死后立即结算替补：返回 false 表示该方全灭
@@ -335,6 +374,7 @@ func RunBattle(seed uint32, rules *BattleRules, sideA, sideB []PetInput, command
 		}
 
 		if battleOver {
+			pushSnapshot(turn, winner)
 			break
 		}
 
@@ -356,6 +396,8 @@ func RunBattle(seed uint32, rules *BattleRules, sideA, sideB []PetInput, command
 			}
 			pet.Buffs = kept
 		}
+
+		pushSnapshot(turn, -1)
 	}
 
 	if winner < 0 {
@@ -375,8 +417,9 @@ func RunBattle(seed uint32, rules *BattleRules, sideA, sideB []PetInput, command
 		}
 	}
 	return BattleOutput{
-		Frames: frames,
-		Result: BattleResult{Winner: winner, Turns: playedTurns},
+		Frames:    frames,
+		Result:    BattleResult{Winner: winner, Turns: playedTurns},
+		Snapshots: snapshots,
 	}
 }
 

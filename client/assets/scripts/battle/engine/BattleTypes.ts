@@ -140,3 +140,23 @@ export interface BattleResult {
     winner: number;
     turns: number;
 }
+
+/** 单宠回合末状态快照（交互式战斗用） */
+export interface SnapshotPet {
+    uid: string;
+    side: number;
+    slot: number;
+    hp: number;
+    /** 每技能剩余 PP（与 skills 下标对齐） */
+    pp: number[];
+    /** 是否在场（存活且为当前出战位） */
+    active: boolean;
+}
+
+/** 回合末全场快照 */
+export interface TurnSnapshot {
+    turn: number;
+    pets: SnapshotPet[];
+    /** -1 = 进行中；0/1 = 该回合结束战斗即定胜负 */
+    winner: number;
+}

@@ -42,7 +42,8 @@ func main() {
 	configHandler := handler.NewConfigHandler(configService)
 	battleService := service.NewBattleService(db, configService)
 	pvpService := service.NewPvPService(db, configService)
-	battleHandler := handler.NewBattleHandler(battleService, pvpService)
+	pveSessionSrv := service.NewPVEInteractiveService(db, configService, battleService)
+	battleHandler := handler.NewBattleHandler(battleService, pvpService, pveSessionSrv)
 
 	// JWT 中间件初始化
 	middleware.InitAuth(cfg)
@@ -101,6 +102,11 @@ func setupRoutes(r *gin.Engine, userHandler *handler.UserHandler, configHandler 
 		battle.POST("/pve", battleHandler.PVE)
 		battle.POST("/capture/:id", battleHandler.Capture)
 		battle.GET("/record/:id", battleHandler.GetRecord)
+
+		// 交互式 PVE（逐回合会话）
+		battle.POST("/pve/interactive/start", battleHandler.StartPVEInteractive)
+		battle.POST("/pve/interactive/command", battleHandler.CommandPVEInteractive)
+		battle.POST("/pve/interactive/abandon", battleHandler.AbandonPVEInteractive)
 
 		// 异步 PVP
 		battle.POST("/pvp/defense", battleHandler.SetDefensePVP)

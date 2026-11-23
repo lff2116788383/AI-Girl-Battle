@@ -3,10 +3,10 @@ import { HomeModel } from '../home/HomeModel';
 import { NetManager } from '../core/NetManager';
 import { WxAdapter } from '../core/WxAdapter';
 import { ConfigManager } from '../core/ConfigManager';
-import { PetData, makePet } from '../pet/PetData';
+import { PetData, makePet, findSpecies } from '../pet/PetData';
 import { UIBuilder } from './UIBuilder';
 import { BattleService, LevelDef, rulesFromConfig } from '../battle/BattleService';
-import { Frame, FrameEvent } from '../battle/engine/BattleTypes';
+import { Frame, FrameEvent, TurnSnapshot } from '../battle/engine/BattleTypes';
 import { BattlePetInput } from '../battle/engine/BattleTypes';
 
 /**
@@ -52,6 +52,10 @@ export class BattleUI extends Component {
     }
 
     private hide(): void {
+        if (this.sessionId) {
+            NetManager.pveInteractiveAbandon(this.sessionId);
+            this.sessionId = null;
+        }
         this.node.active = false;
         this.unscheduleAllCallbacks();
     }
@@ -70,9 +74,9 @@ export class BattleUI extends Component {
         this.hpRows = UIBuilder.node('hpRows', bg, 680, 700, 0, 130);
 
         // 战报区（⚠ Label 必须放子节点，同节点 Graphics 会吞掉渲染）
-        const logBg = UIBuilder.panel('logBg', bg, 640, 300, 0, -250, new Color(14, 16, 26, 255));
-        const logNode = UIBuilder.label('logText', logBg, '', 20, 0, 0, new Color(200, 210, 230, 255), 620);
-        logNode.getComponent(UITransform).setContentSize(620, 280);
+        const logBg = UIBuilder.panel('logBg', bg, 640, 140, 0, -370, new Color(14, 16, 26, 255));
+        const logNode = UIBuilder.label('logText', logBg, '', 18, 0, 0, new Color(200, 210, 230, 255), 600);
+        logNode.getComponent(UITransform).setContentSize(600, 120);
         this.logLabel = logNode.getComponent(Label);
         this.logLabel.overflow = Label.Overflow.CLAMP;
         this.logLabel.horizontalAlign = Label.HorizontalAlign.LEFT;
@@ -241,30 +245,170 @@ export class BattleUI extends Component {
             this.log('⚠ 你还没有 AI 娘，先去领养一只！');
             return;
         }
-        this.curLevel = level;
         const party = this.buildParty();
         if (party.length === 0) {
             this.log('⚠ 没有 可出战的 AI 娘（过热宕机的不能打）');
             return;
         }
+        this.curLevel = level;
 
+        // 在线：交互式逐回合（W5 主体）；离线：托管降级
+        if (NetManager.online) {
+            this.log('→ 建立战斗会话…');
+            NetManager.pveInteractiveStart({ levelId: level.id, seed: BattleService.randomSeed(), party }).then((res) => {
+                this.sessionId = res.sessionId;
+                this.curLevel = res.level; // 服务端权威敌方阵容
+                this.interactiveTurn = res.turn;
+                this.enterInteractiveStage();
+            }).catch((e) => {
+                console.warn('[Battle] 交互式开局失败，降级托管:', e);
+                this.startAutoBattle(level);
+            });
+        } else {
+            this.startAutoBattle(level);
+        }
+    }
+
+    // ---------------- 交互式逐回合（W5） ----------------
+
+    private sessionId: string | null = null;
+    private interactiveTurn = 0;
+    private curSnapshot: TurnSnapshot | null = null;
+
+    private enterInteractiveStage() {
+        this.unscheduleAllCallbacks();
+        this.clearContainer(this.levelContainer);
+        this.clearContainer(this.hpRows);
+        this.titleLabel.string = this.curLevel.name;
+        this.logLabel.string = '';
+        this.barNodes = {};
+        this.curSnapshot = null;
+        this.buildHpRows();
+        this.buildCommandBar();
+        this.log(`T${this.interactiveTurn} 选择行动`);
+    }
+
+    /** 行动条：在场宠技能（含剩余 PP）+ 换宠 */
+    private buildCommandBar() {
+        this.clearContainer(this.levelContainer);
+        const party = this.buildParty();
+        const rulesCfg = this.getBattleRulesConfig();
+        const rules = rulesFromConfig(rulesCfg);
+        const skillDefs = rules.skills;
+
+        // 在场宠 = 快照 active；无快照（首回合）= party[0]
+        let activeUid = party.length ? party[0].uid : '';
+        let activePP: number[] = [];
+        if (this.curSnapshot) {
+            const active = this.curSnapshot.pets.find(p => p.side === 0 && p.active);
+            if (active) { activeUid = active.uid; activePP = active.pp; }
+        }
+        const pet = party.find(p => p.uid === activeUid) || party[0];
+        if (!pet) return;
+
+        // 技能按钮（≤3 个横排，避开战报区）
+        const btnW = 198, gap = 8;
+        pet.skills.forEach((skillId, i) => {
+            const def = skillDefs[skillId];
+            // 无快照（首回合）显示满 PP；有快照用服务端权威剩余值
+            const pp = activePP.length > i ? activePP[i] : (def ? def.ppMax : 1);
+            const disabled = pp <= 0;
+            const label = `${def ? def.name : skillId} PP:${pp}${disabled ? '(耗尽)' : ''}`;
+            const btn = UIBuilder.button(`cmd_${i}`, this.levelContainer, btnW, 84, (i - 1) * (btnW + gap), -260,
+                '', () => { if (!disabled) this.submitCommand({ kind: 'skill', index: i }); },
+                disabled ? new Color(70, 70, 80, 255) : new Color(50, 110, 160, 255));
+            const lb = btn.getChildByName(`cmd_${i}_lb`);
+            if (lb) {
+                const l = lb.getComponent(Label);
+                l.string = label;
+                l.fontSize = 17;
+            }
+        });
+
+        // 换宠：替补中第一个存活的（窄条贴血条区下方）
+        const backup = party.find(p => {
+            if (p.uid === activeUid) return false;
+            if (!this.curSnapshot) return true;
+            const st = this.curSnapshot.pets.find(s => s.side === 0 && s.uid === p.uid);
+            return st ? st.hp > 0 : true;
+        });
+        const switchBtn = UIBuilder.button('cmd_switch', this.levelContainer, 636, 50, 0, -175,
+            '', () => {
+                if (backup) this.submitCommand({ kind: 'switch', index: party.findIndex(p => p.uid === backup.uid) });
+            }, new Color(110, 90, 50, 255));
+        const slb = switchBtn.getChildByName('cmd_switch_lb');
+        if (slb) {
+            const l = slb.getComponent(Label);
+            l.string = backup ? `换宠 → ${backup.name}` : '没有可换的替补';
+            l.fontSize = 17;
+        }
+    }
+
+    private submitCommand(cmd: { kind: string; index: number } | null) {
+        if (!this.sessionId) return;
+        this.clearContainer(this.levelContainer);
+        this.log(`→ ${cmd ? (cmd.kind === 'switch' ? '换宠' : '使用技能') : '跳过'}…`);
+        NetManager.pveInteractiveCommand({ sessionId: this.sessionId, command: cmd }).then((res) => {
+            this.playTurnFrames(res.frames, () => {
+                if (res.finished) {
+                    this.sessionId = null;
+                    this.interactiveTurn = res.turn;
+                    this.enterSettle(res.winner, res.rewards || {}, res.user, res.recordId);
+                } else {
+                    this.interactiveTurn = res.turn + 1;
+                    this.applySnapshot(res.snapshot);
+                    this.buildCommandBar();
+                }
+            });
+        }).catch((e) => {
+            this.log(`指令提交失败: ${e.message}`);
+            this.sessionId = null; // 会话失效（过期/销毁），回到托管
+            this.buildCommandBar();
+        });
+    }
+
+    /** 播放本回合帧（每帧 0.35s），播完回调 */
+    private playTurnFrames(frames: Frame[], onDone: () => void) {
+        if (!frames || frames.length === 0) { onDone(); return; }
+        let idx = 0;
+        this.schedule(() => {
+            if (idx >= frames.length) {
+                this.unscheduleAllCallbacks();
+                onDone();
+                return;
+            }
+            this.applyFrame(frames[idx]);
+            idx++;
+        }, 0.35);
+    }
+
+    /** 用服务端权威快照覆盖血条状态 */
+    private applySnapshot(snapshot: TurnSnapshot) {
+        this.curSnapshot = snapshot;
+        for (const p of snapshot.pets) {
+            const st = this.hpState[p.uid];
+            if (!st) continue;
+            st.cur = Math.floor(p.hp);
+            st.active = p.active;
+        }
+        this.refreshBars();
+    }
+
+    /** 托管整场（离线降级 / 交互开局失败） */
+    private startAutoBattle(level: LevelDef) {
+        const party = this.buildParty();
         const seed = BattleService.randomSeed();
         const rulesCfg = this.getBattleRulesConfig();
         const rules = rulesFromConfig(rulesCfg);
         const commands = BattleService.planCommands(rules.turn.maxTurns);
-
-        // 本地预演
         const local = BattleService.preview(seed, rules, party, level.enemies, commands);
 
         if (NetManager.online) {
-            this.log('→ 提交服务端权威结算…');
+            this.log('→ 托管提交服务端权威结算…');
             NetManager.battlePVE({ levelId: level.id, seed, party, commands }).then((res) => {
                 this.frames = res.frames;
                 this.playFrames(res.result, res.rewards || {}, res.user, res.recordId);
-            }).catch((e) => {
-                console.warn('[Battle] 服务端结算失败，降级本地权威:', e);
-                this.applyLocalResult(local, level, seed);
-            });
+            }).catch(() => this.applyLocalResult(local, level, seed));
         } else {
             this.applyLocalResult(local, level, seed);
         }
@@ -279,12 +423,15 @@ export class BattleUI extends Component {
         void seed;
     }
 
-    /** 存档前 3 只非宕机宠 → 引擎输入 */
+    /** 存档前 3 只非宕机宠 → 引擎输入（存量存档 skills 不足 3 个时从种族池补齐） */
     private buildParty(): BattlePetInput[] {
         const out: BattlePetInput[] = [];
         for (const pet of this.model.pets) {
             if (pet.status === 'overheat') continue;
-            const species = this.model.species[pet.speciesId];
+            const species = findSpecies(this.model.species, pet) || undefined;
+            if (species && pet.skills.length < species.skillPool.length) {
+                pet.skills = species.skillPool.slice(0, 3);
+            }
             out.push(BattleService.petToInput(pet, species));
             if (out.length >= 3) break;
         }
@@ -345,14 +492,14 @@ export class BattleUI extends Component {
             this.barNodes[uid] = { fg, text: hpText, side, alive: true };
             this.hpState[uid] = { cur: maxHp, max: maxHp, name, side, active: side === 0 };
         };
-        // 敌方（最多3）y 280/210/140；我方 y -40/-110/-180
+        // 敌方（最多3）y 280/216/152；我方 y -40/-104/-168（行距 64，给行动条留空间）
         this.curLevel.enemies.forEach((e, i) => {
             const maxHp = Math.floor(e.stats.cooling * 6);
-            addRow(e.uid, e.name, 1, maxHp, 280 - i * 74);
+            addRow(e.uid, e.name, 1, maxHp, 280 - i * 64);
         });
         this.buildParty().forEach((p, i) => {
             const maxHp = Math.floor(p.stats.cooling * 6);
-            addRow(p.uid, p.name, 0, maxHp, -40 - i * 74);
+            addRow(p.uid, p.name, 0, maxHp, -40 - i * 64);
         });
     }
 
@@ -477,7 +624,7 @@ export class BattleUI extends Component {
         if (captured) {
             const species = this.model.species[speciesId];
             if (species) {
-                const pet: PetData = makePet(species, species.name, 'deploy');
+                const pet: PetData = makePet(species, species.name, 'deploy', 0, speciesId);
                 pet.skills = species.skillPool.slice(0, 3);
                 this.model.pets.push(pet);
                 this.model.persist();

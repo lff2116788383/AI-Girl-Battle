@@ -24,10 +24,11 @@ type Fixtures struct {
 }
 
 type CaseResult struct {
-	Name   string        `json:"name"`
-	Winner int           `json:"winner"`
-	Turns  int           `json:"turns"`
-	Frames []battle.Frame `json:"frames"`
+	Name      string                `json:"name"`
+	Winner    int                   `json:"winner"`
+	Turns     int                   `json:"turns"`
+	Frames    []battle.Frame        `json:"frames"`
+	Snapshots []battle.TurnSnapshot `json:"snapshots"`
 }
 
 type ReplayOutput struct {
@@ -64,10 +65,11 @@ func main() {
 	for _, c := range fx.Cases {
 		res := battle.RunBattle(c.Seed, &rules, c.SideA, c.SideB, c.Commands)
 		out.Results = append(out.Results, CaseResult{
-			Name:   c.Name,
-			Winner: res.Result.Winner,
-			Turns:  res.Result.Turns,
-			Frames: res.Frames,
+			Name:      c.Name,
+			Winner:    res.Result.Winner,
+			Turns:     res.Result.Turns,
+			Frames:    res.Frames,
+			Snapshots: res.Snapshots,
 		})
 	}
 	enc := json.NewEncoder(os.Stdout)

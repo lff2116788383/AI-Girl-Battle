@@ -11,12 +11,62 @@ import (
 )
 
 type BattleHandler struct {
-	battleService *service.BattleService
-	pvpService    *service.PvPService
+	battleService   *service.BattleService
+	pvpService      *service.PvPService
+	pveSessionSrv   *service.PVEInteractiveService
 }
 
-func NewBattleHandler(battleService *service.BattleService, pvpService *service.PvPService) *BattleHandler {
-	return &BattleHandler{battleService: battleService, pvpService: pvpService}
+func NewBattleHandler(battleService *service.BattleService, pvpService *service.PvPService, pveSessionSrv *service.PVEInteractiveService) *BattleHandler {
+	return &BattleHandler{battleService: battleService, pvpService: pvpService, pveSessionSrv: pveSessionSrv}
+}
+
+// StartPVEInteractive 交互式 PVE 开局：建会话，返回敌方阵容（服务端权威）
+func (h *BattleHandler) StartPVEInteractive(c *gin.Context) {
+	userID := c.MustGet("user_id").(uint)
+	var req service.StartRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误", "details": err.Error()})
+		return
+	}
+	res, err := h.pveSessionSrv.Start(userID, &req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "会话已创建", "data": res})
+}
+
+// CommandPVEInteractive 交互式 PVE 提交一回合指令
+func (h *BattleHandler) CommandPVEInteractive(c *gin.Context) {
+	userID := c.MustGet("user_id").(uint)
+	var req service.CommandRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误", "details": err.Error()})
+		return
+	}
+	res, err := h.pveSessionSrv.Submit(userID, &req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "ok", "data": res})
+}
+
+// AbandonPVEInteractive 放弃交互式会话
+func (h *BattleHandler) AbandonPVEInteractive(c *gin.Context) {
+	userID := c.MustGet("user_id").(uint)
+	var req struct {
+		SessionID string `json:"sessionId" binding:"required"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误", "details": err.Error()})
+		return
+	}
+	if err := h.pveSessionSrv.Abandon(userID, req.SessionID); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "会话已放弃"})
 }
 
 // ListLevels 关卡列表

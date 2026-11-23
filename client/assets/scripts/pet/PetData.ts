@@ -61,13 +61,14 @@ export const PET_ART = {
 
 let petSeq = 0;
 
-/** 创建一只 AI娘 实例（本地 MVP 工厂；服务端接入后由服务器下发） */
-export function makePet(species: SpeciesDef, name: string, source: PetSource, rentDays = 0): PetData {
+/** 创建一只 AI娘 实例（本地 MVP 工厂；服务端接入后由服务器下发）
+ *  speciesId：种族表键（deepseek_niang 等）；存量存档曾误存 name，读取端需兼容反查 */
+export function makePet(species: SpeciesDef, name: string, source: PetSource, rentDays = 0, speciesId?: string): PetData {
     petSeq += 1;
     const now = Date.now();
     return {
         id: `pet_${now}_${petSeq}`,
-        speciesId: species.name,
+        speciesId: speciesId || species.name,
         name,
         source,
         star: 1,
@@ -76,8 +77,17 @@ export function makePet(species: SpeciesDef, name: string, source: PetSource, re
         mood: 80,
         status: 'normal',
         stats: { ...species.baseStats },
-        skills: species.skillPool.slice(0, 1),
+        skills: species.skillPool.slice(0, 3),
         rentExpireAt: source === 'rent' ? now + rentDays * 86400_000 : 0,
         wagePerDay: source === 'rent' ? 10 : 0,
     };
+}
+
+/** 按 speciesId 查种族定义；兼容存量存档误存中文 name 的情况（线性反查） */
+export function findSpecies(pets: { [key: string]: SpeciesDef }, pet: { speciesId: string }): SpeciesDef | null {
+    if (pets[pet.speciesId]) return pets[pet.speciesId];
+    for (const k of Object.keys(pets)) {
+        if (pets[k].name === pet.speciesId) return pets[k];
+    }
+    return null;
 }

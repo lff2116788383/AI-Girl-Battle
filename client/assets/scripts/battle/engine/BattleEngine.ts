@@ -33,11 +33,14 @@ import {
     Frame,
     FrameEvent,
     SkillDef,
+    TurnSnapshot,
 } from "./BattleTypes";
 
 export interface BattleOutput {
     frames: Frame[];
     result: BattleResult;
+    /** 每回合末全场快照（交互式战斗逐回合推进用） */
+    snapshots: TurnSnapshot[];
 }
 
 function makePet(input: BattlePetInput, rules: BattleRules): CombatPet {
@@ -97,6 +100,7 @@ export function runBattle(input: BattleInput): BattleOutput {
         input.sides[1].map(p => makePet(p, rules)),
     ];
     const frames: Frame[] = [];
+    const snapshots: TurnSnapshot[] = [];
     let seq = 0;
     let winner = -1;
     let playedTurns = 0;
@@ -104,6 +108,23 @@ export function runBattle(input: BattleInput): BattleOutput {
     const pushFrame = (turn: number, side: number, petUid: string, action: string, skillId: string | null, events: FrameEvent[]) => {
         frames.push({ turn: turn, seq: seq, side: side, petUid: petUid, action: action, skillId: skillId, events: events });
         seq++;
+    };
+
+    /** 回合末全场快照（不影响 PRNG：纯读取状态） */
+    const pushSnapshot = (turn: number, finalWinner: number) => {
+        const pets: TurnSnapshot["pets"] = [];
+        for (let sideIdx = 0; sideIdx < 2; sideIdx++) {
+            const side = sides[sideIdx];
+            const cur = activeIndex(side);
+            for (let i = 0; i < side.length; i++) {
+                const p = side[i];
+                pets.push({
+                    uid: p.uid, side: sideIdx, slot: i, hp: p.hp,
+                    pp: p.pp.slice(), active: p.alive && i === cur,
+                });
+            }
+        }
+        snapshots.push({ turn: turn, pets: pets, winner: finalWinner });
     };
 
     /** 被打死后立即结算替补：返回 false 表示该方全灭（战斗结束） */
@@ -282,7 +303,10 @@ export function runBattle(input: BattleInput): BattleOutput {
             playedTurns = turn;
         }
 
-        if (battleOver) break;
+        if (battleOver) {
+            pushSnapshot(turn, winner);
+            break;
+        }
 
         // -- 4. 回合末：双方场上宠 buff 递减（含当回合新加的），归零静默移除 --
         for (let sideIdx = 0; sideIdx < 2; sideIdx++) {
@@ -292,6 +316,8 @@ export function runBattle(input: BattleInput): BattleOutput {
             for (const b of pet.buffs) b.turnsLeft -= 1;
             pet.buffs = pet.buffs.filter(b => b.turnsLeft > 0);
         }
+
+        pushSnapshot(turn, -1);
     }
 
     if (winner < 0) {
@@ -303,5 +329,5 @@ export function runBattle(input: BattleInput): BattleOutput {
         else if (sum1 > sum0) winner = 1;
         else winner = -1;
     }
-    return { frames: frames, result: { winner: winner, turns: playedTurns } };
+    return { frames: frames, result: { winner: winner, turns: playedTurns }, snapshots: snapshots };
 }

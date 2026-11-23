@@ -189,4 +189,25 @@ export class NetManager {
         if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '排行榜拉取失败');
         return resp.data;
     }
+
+    // ---------------- 交互式 PVE（W5） ----------------
+
+    /** 开局：建会话，返回敌方阵容（服务端权威） */
+    public static async pveInteractiveStart(payload: { levelId: string; seed: number; party: any[] }): Promise<any> {
+        const resp = await NetManager.request('POST', '/api/v1/battle/pve/interactive/start', payload);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '开局失败');
+        return resp.data;
+    }
+
+    /** 提交一回合指令：返回本回合帧 + 全场快照 + 胜负态 */
+    public static async pveInteractiveCommand(payload: { sessionId: string; command: any }): Promise<any> {
+        const resp = await NetManager.request('POST', '/api/v1/battle/pve/interactive/command', payload);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '指令提交失败');
+        return resp.data;
+    }
+
+    /** 放弃会话 */
+    public static pveInteractiveAbandon(sessionId: string): void {
+        NetManager.request('POST', '/api/v1/battle/pve/interactive/abandon', { sessionId }).catch(() => { /* 忽略 */ });
+    }
 }

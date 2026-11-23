@@ -37,6 +37,7 @@ const results = fixtures.cases.map((c: Case) => {
         winner: out.result.winner,
         turns: out.result.turns,
         frames: out.frames,
+        snapshots: out.snapshots,
     };
 });
 
