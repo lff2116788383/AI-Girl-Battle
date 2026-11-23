@@ -1,6 +1,7 @@
 import { Color, Component, Graphics, Label, Node, UITransform } from 'cc';
 import { HomeModel } from '../home/HomeModel';
 import { NetManager } from '../core/NetManager';
+import { WxAdapter } from '../core/WxAdapter';
 import { ConfigManager } from '../core/ConfigManager';
 import { PetData, makePet } from '../pet/PetData';
 import { UIBuilder } from './UIBuilder';
@@ -81,6 +82,10 @@ export class BattleUI extends Component {
         this.levelContainer = UIBuilder.node('levelList', bg, 680, 640, 0, 80);
         this.actionBtn = UIBuilder.button('action', bg, 260, 80, 0, -540, '返回', () => this.enterLevelList(), new Color(60, 120, 90, 255));
         this.actionBtn.active = false;
+
+        // 页签：PVE / PVP（W4）
+        UIBuilder.button('tab_pve', bg, 160, 60, -110, 470, '处理麻烦', () => this.enterLevelList(), new Color(40, 80, 130, 255));
+        UIBuilder.button('tab_pvp', bg, 160, 60, 70, 470, '切磋', () => this.enterPvpMenu(), new Color(130, 70, 40, 255));
     }
 
     private clearContainer(c: Node) {
@@ -124,6 +129,105 @@ export class BattleUI extends Component {
     private getLevels(): LevelDef[] {
         const levelsCfg = ConfigManager.get('levels');
         return (levelsCfg && levelsCfg.levels ? levelsCfg.levels : []) as LevelDef[];
+    }
+
+    // ---------------- 异步 PVP（W4） ----------------
+
+    private myScore = -1;
+
+    private enterPvpMenu() {
+        this.unscheduleAllCallbacks();
+        this.titleLabel.string = '切磋';
+        this.actionBtn.active = false;
+        this.clearContainer(this.hpRows);
+        this.logLabel.string = '';
+        this.barNodes = {};
+        this.curLevel = null;
+        this.clearContainer(this.levelContainer);
+
+        if (!NetManager.online) {
+            this.log('⚠ 切磋需要联网（异步 PVP 由服务端权威结算）');
+            return;
+        }
+        const scoreText = this.myScore >= 0 ? `我的积分: ${this.myScore}` : '';
+        UIBuilder.button('pvp_defense', this.levelContainer, 640, 92, 0, 250,
+            '', () => this.uploadDefense(), new Color(70, 100, 60, 255));
+        const lb1 = this.levelContainer.getChildByName('pvp_defense');
+        if (lb1) {
+            const l = lb1.getChildByName('pvp_defense_lb');
+            if (l) l.getComponent(Label).string = '① 设置防守阵容（当前出战）';
+        }
+        UIBuilder.button('pvp_challenge', this.levelContainer, 640, 92, 0, 130,
+            '', () => this.startPvpBattle(), new Color(150, 90, 50, 255));
+        const lb2 = this.levelContainer.getChildByName('pvp_challenge');
+        if (lb2) {
+            const l = lb2.getChildByName('pvp_challenge_lb');
+            if (l) l.getComponent(Label).string = '② 挑战对手（匹配相近积分）';
+        }
+        UIBuilder.button('pvp_rank', this.levelContainer, 640, 92, 0, 10,
+            '', () => this.enterRanking(), new Color(90, 70, 130, 255));
+        const lb3 = this.levelContainer.getChildByName('pvp_rank');
+        if (lb3) {
+            const l = lb3.getChildByName('pvp_rank_lb');
+            if (l) l.getComponent(Label).string = '排行榜';
+        }
+        this.log(`${scoreText}胜 +25 分 / 负 -10 分，防守阵容会在离线时替你迎战`);
+    }
+
+    private uploadDefense() {
+        const party = this.buildParty();
+        if (party.length === 0) {
+            this.log('⚠ 没有可防守的 AI 娘（过热宕机的不能上）');
+            return;
+        }
+        NetManager.pvpSetDefense({ party, mainName: party[0].name }).then((profile) => {
+            this.myScore = profile.score;
+            this.log(`✓ 防守阵容已部署（${party.map(p => p.name).join('/')}），积分 ${profile.score}`);
+        }).catch((e) => this.log(`防守阵容上传失败: ${e.message}`));
+    }
+
+    private startPvpBattle() {
+        if (this.model.pets.length === 0) {
+            this.log('⚠ 你还没有 AI 娘，先去领养一只！');
+            return;
+        }
+        const party = this.buildParty();
+        if (party.length === 0) {
+            this.log('⚠ 没有 可出战的 AI 娘（过热宕机的不能打）');
+            return;
+        }
+        this.log('→ 匹配对手并提交服务端结算…');
+        const seed = BattleService.randomSeed();
+        const rulesCfg = this.getBattleRulesConfig();
+        const rules = rulesFromConfig(rulesCfg);
+        // 挑战者指令（防守方指令由服务端托管生成）
+        const commands = BattleService.planCommands(rules.turn.maxTurns);
+
+        NetManager.pvpChallenge({ seed, party, commands }).then((res) => {
+            // 服务端返回 level（含对手阵容快照）→ 用它渲染血条
+            this.curLevel = res.level;
+            this.frames = res.frames;
+            this.playFrames(res.result, res.rewards || {}, res.user, res.recordId);
+        }).catch((e) => this.log(`挑战失败: ${e.message}`));
+    }
+
+    private enterRanking() {
+        this.clearContainer(this.levelContainer);
+        this.logLabel.string = '';
+        this.log('→ 拉取排行榜…');
+        NetManager.pvpRanking().then((rows) => {
+            this.clearContainer(this.levelContainer);
+            rows.slice(0, 8).forEach((r, i) => {
+                UIBuilder.button(`rank_${r.userId}`, this.levelContainer, 640, 76, 0, 260 - i * 84,
+                    '', () => { /* 查看阵容（W5） */ }, new Color(i === 0 ? 160 : 70, i === 0 ? 130 : 80, i === 0 ? 60 : 110, 255));
+                const btn = this.levelContainer.getChildByName(`rank_${r.userId}`);
+                if (btn) {
+                    const l = btn.getChildByName(`rank_${r.userId}_lb`);
+                    if (l) l.getComponent(Label).string = `${i + 1}. ${r.nickname}  ${r.score}分 (${r.wins}胜${r.losses}负)`;
+                }
+            });
+            this.log(rows.length === 0 ? '排行榜还是空的，快去上传防守阵容！' : `共 ${rows.length} 人上榜`);
+        }).catch((e) => this.log(`排行榜拉取失败: ${e.message}`));
     }
 
     private getBattleRulesConfig(): any {
@@ -331,6 +435,14 @@ export class BattleUI extends Component {
             const r = Object.keys(rewards).map(k => `${k}+${rewards[k]}`).join(' ');
             if (r) this.log(`奖励: ${r}`);
             void userSnapshot;
+            // 分享触点：晒战报（微信环境调起分享面板，H5 仅日志）
+            UIBuilder.button('btn_share', this.levelContainer, 300, 70, -160, -430,
+                '', () => WxAdapter.shareReport('我在AI中转站打赢了一场切磋！'), new Color(60, 110, 140, 255));
+            const sb = this.levelContainer.getChildByName('btn_share');
+            if (sb) {
+                const l = sb.getChildByName('btn_share_lb');
+                if (l) l.getComponent(Label).string = '分享战报';
+            }
             // 捕获结算
             const level = this.curLevel;
             if (level.captureSpecies && level.captureRate > 0) {
@@ -343,6 +455,20 @@ export class BattleUI extends Component {
                     const captured = Math.random() < level.captureRate;
                     this.handleCapture(captured, level.captureSpecies, level);
                 }
+            }
+        } else {
+            // 广告触点：战败看激励视频领补偿（feed+10；微信走真实广告位，H5 模拟）
+            UIBuilder.button('btn_ad_feed', this.levelContainer, 300, 70, 160, -430,
+                '', () => {
+                    WxAdapter.showRewardedAd('adunit-debug-feed', () => {
+                        this.grantLocalRewards({ feed: 10 });
+                        this.log('✓ 广告奖励：算力饲料 +10');
+                    }, (reason) => this.log(`广告未完成: ${reason}`));
+                }, new Color(140, 110, 50, 255));
+            const ab = this.levelContainer.getChildByName('btn_ad_feed');
+            if (ab) {
+                const l = ab.getChildByName('btn_ad_feed_lb');
+                if (l) l.getComponent(Label).string = '看广告领饲料+10';
             }
         }
     }

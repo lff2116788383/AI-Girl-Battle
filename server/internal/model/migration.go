@@ -14,6 +14,7 @@ func AutoMigrate(db *gorm.DB) error {
 		&ConfigPackage{},
 		&ConfigMeta{},
 		&BattleRecord{},
+		&PvPProfile{},
 	)
 	if err != nil {
 		return err

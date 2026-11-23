@@ -12,6 +12,8 @@ import { WxAdapter } from './WxAdapter';
  */
 game.on(Game.EVENT_GAME_INITED, () => {
     console.log(`[Bootstrap] 平台: ${WxAdapter.platform}`);
+    // 被动分享：右上角菜单 + 场景内点击（拉新主入口，微信环境生效）
+    WxAdapter.initShare('AI中转站：收养你的AI娘，处理服务器麻烦！');
     director.once(Director.EVENT_AFTER_SCENE_LAUNCH, () => {
         const scene = director.getScene();
         if (!scene) { console.error('[Bootstrap] 启动场景为空'); return; }

@@ -117,11 +117,69 @@ export class WxAdapter {
         });
     }
 
-    // ---------------- 分享（裂变入口占位，阶段一 PVP 时启用） ----------------
+    // ---------------- 分享（裂变入口，W4 启用） ----------------
 
     /** 主动分享战报卡片（仅微信环境生效） */
     public static shareReport(title: string, imageUrl?: string): void {
         if (!WxAdapter.isWx) { console.log('[WxAdapter] H5 环境跳过分享:', title); return; }
         wx.shareAppMessage({ title, imageUrl });
+    }
+
+    /** 被动分享：右上角菜单 + 场景内点击（拉新主入口） */
+    public static initShare(title: string, imageUrl?: string): void {
+        if (!WxAdapter.isWx) { console.log('[WxAdapter] H5 环境跳过被动分享初始化'); return; }
+        wx.showShareMenu({ withShareTicket: false });
+        wx.onShareAppMessage(() => ({ title, imageUrl }));
+        wx.onShareTimeline(() => ({ title, imageUrl }));
+    }
+
+    // ---------------- 激励视频广告（W4：四件套之一） ----------------
+
+    private static adInstances: { [id: string]: any } = {};
+
+    /**
+     * 播放激励视频广告。
+     * 微信环境：wx.createRewardedVideoAd 单例复用，load → show；
+     * H5 开发环境：模拟成功直接回调（上架前须配真实广告位）。
+     */
+    public static showRewardedAd(adUnitId: string, onReward: () => void, onFail?: (reason: string) => void): void {
+        if (!WxAdapter.isWx) {
+            console.log(`[WxAdapter] H5 模拟激励视频广告: ${adUnitId} → 直接发放奖励`);
+            onReward();
+            return;
+        }
+        try {
+            let ad = WxAdapter.adInstances[adUnitId];
+            if (!ad) {
+                ad = wx.createRewardedVideoAd({ adUnitId });
+                WxAdapter.adInstances[adUnitId] = ad;
+            }
+            const onClose = (res: any) => {
+                ad.offClose(onClose);
+                if (res && (res.isEnded || res.isEnded === undefined)) onReward();
+                else if (onFail) onFail('广告中途关闭');
+            };
+            ad.onClose(onClose);
+            ad.show().catch(() => {
+                ad.load().then(() => ad.show()).catch((e: any) => {
+                    ad.offClose(onClose);
+                    if (onFail) onFail(`广告加载失败: ${e && e.errMsg ? e.errMsg : e}`);
+                });
+            });
+        } catch (e: any) {
+            if (onFail) onFail(`广告异常: ${e && e.message ? e.message : e}`);
+        }
+    }
+
+    // ---------------- 订阅消息（W4：当日结算提醒，四件套之一） ----------------
+
+    /** 请求订阅消息授权（模板 ID 由后台下发；H5 直接跳过） */
+    public static subscribeMessage(tmplIds: string[], onDone?: (accepted: boolean) => void): void {
+        if (!WxAdapter.isWx) { console.log('[WxAdapter] H5 环境跳过订阅消息:', tmplIds); if (onDone) onDone(false); return; }
+        wx.requestSubscribeMessage({
+            tmplIds,
+            success: (res: any) => { if (onDone) onDone(res[tmplIds[0]] === 'accept'); },
+            fail: () => { if (onDone) onDone(false); },
+        });
     }
 }

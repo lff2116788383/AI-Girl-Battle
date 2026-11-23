@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"ai-girl-battle-server/internal/battle"
 	"ai-girl-battle-server/internal/service"
 
 	"github.com/gin-gonic/gin"
@@ -11,10 +12,11 @@ import (
 
 type BattleHandler struct {
 	battleService *service.BattleService
+	pvpService    *service.PvPService
 }
 
-func NewBattleHandler(battleService *service.BattleService) *BattleHandler {
-	return &BattleHandler{battleService: battleService}
+func NewBattleHandler(battleService *service.BattleService, pvpService *service.PvPService) *BattleHandler {
+	return &BattleHandler{battleService: battleService, pvpService: pvpService}
 }
 
 // ListLevels 关卡列表
@@ -73,4 +75,49 @@ func (h *BattleHandler) GetRecord(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "ok", "data": record})
+}
+
+// SetDefensePVP 上传/更新防守阵容
+func (h *BattleHandler) SetDefensePVP(c *gin.Context) {
+	userID := c.MustGet("user_id").(uint)
+	var req struct {
+		Party    []battle.PetInput `json:"party" binding:"required"`
+		MainName string            `json:"mainName"`
+	}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误", "details": err.Error()})
+		return
+	}
+	profile, err := h.pvpService.SetDefense(userID, req.Party, req.MainName)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "防守阵容已更新", "data": profile})
+}
+
+// ChallengePVP 发起挑战：匹配对手 → Go 引擎重放 → 积分结算
+func (h *BattleHandler) ChallengePVP(c *gin.Context) {
+	userID := c.MustGet("user_id").(uint)
+	var req service.PVPChallengeRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "请求参数错误", "details": err.Error()})
+		return
+	}
+	res, err := h.pvpService.Challenge(userID, &req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "挑战完成", "data": res})
+}
+
+// RankingPVP 排行榜
+func (h *BattleHandler) RankingPVP(c *gin.Context) {
+	ranks, err := h.pvpService.Ranking()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "ok", "data": ranks})
 }

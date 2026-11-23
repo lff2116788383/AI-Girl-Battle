@@ -41,7 +41,8 @@ func main() {
 	userHandler := handler.NewUserHandler(userService, wxService)
 	configHandler := handler.NewConfigHandler(configService)
 	battleService := service.NewBattleService(db, configService)
-	battleHandler := handler.NewBattleHandler(battleService)
+	pvpService := service.NewPvPService(db, configService)
+	battleHandler := handler.NewBattleHandler(battleService, pvpService)
 
 	// JWT 中间件初始化
 	middleware.InitAuth(cfg)
@@ -100,6 +101,11 @@ func setupRoutes(r *gin.Engine, userHandler *handler.UserHandler, configHandler 
 		battle.POST("/pve", battleHandler.PVE)
 		battle.POST("/capture/:id", battleHandler.Capture)
 		battle.GET("/record/:id", battleHandler.GetRecord)
+
+		// 异步 PVP
+		battle.POST("/pvp/defense", battleHandler.SetDefensePVP)
+		battle.POST("/pvp/challenge", battleHandler.ChallengePVP)
+		battle.GET("/pvp/ranking", battleHandler.RankingPVP)
 	}
 
 	// 健康检查

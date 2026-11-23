@@ -163,4 +163,27 @@ export class NetManager {
         if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '捕获响应异常');
         return resp.data;
     }
+
+    // ---------------- 异步 PVP（W4） ----------------
+
+    /** 上传/更新防守阵容（返回最新档案含积分） */
+    public static async pvpSetDefense(payload: { party: any[]; mainName: string }): Promise<any> {
+        const resp = await NetManager.request('POST', '/api/v1/battle/pvp/defense', payload);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '防守阵容上传失败');
+        return resp.data;
+    }
+
+    /** 发起挑战：匹配对手 → 服务端重放 → 积分结算（含对手阵容快照） */
+    public static async pvpChallenge(payload: { seed: number; party: any[]; commands: any[][] }): Promise<any> {
+        const resp = await NetManager.request('POST', '/api/v1/battle/pvp/challenge', payload);
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '挑战请求失败');
+        return resp.data;
+    }
+
+    /** 排行榜前 50 */
+    public static async pvpRanking(): Promise<any[]> {
+        const resp = await NetManager.request('GET', '/api/v1/battle/pvp/ranking');
+        if (!resp || !resp.data) throw new Error(resp && resp.error ? resp.error : '排行榜拉取失败');
+        return resp.data;
+    }
 }

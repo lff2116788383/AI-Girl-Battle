@@ -115,7 +115,7 @@ func (s *BattleService) RunPVE(userID uint, req *PVERequest) (*PVEResult, error)
 	var rewards map[string]int
 	if res.Result.Winner == 0 {
 		rewards = level.Rewards
-		if err := s.grantRewards(userID, rewards); err != nil {
+		if err := grantRewards(s.db, userID, rewards); err != nil {
 			return nil, err
 		}
 	} else {
@@ -142,9 +142,9 @@ func (s *BattleService) RunPVE(userID uint, req *PVERequest) (*PVEResult, error)
 }
 
 // grantRewards 奖励 key 直接映射 User 字段（coins/tokens/feed/ice_packs）
-func (s *BattleService) grantRewards(userID uint, rewards map[string]int) error {
+func grantRewards(db *gorm.DB, userID uint, rewards map[string]int) error {
 	user := &model.User{}
-	if err := s.db.First(user, userID).Error; err != nil {
+	if err := db.First(user, userID).Error; err != nil {
 		return err
 	}
 	if v, ok := rewards["coins"]; ok {
@@ -159,7 +159,10 @@ func (s *BattleService) grantRewards(userID uint, rewards map[string]int) error 
 	if v, ok := rewards["ice_packs"]; ok {
 		user.IcePacks += v
 	}
-	return s.db.Save(user).Error
+	if err := db.Save(user).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 // Capture 捕获结算：校验战报归属/胜利/未锁定 → 一次性掷骰锁定结果（防刷）
