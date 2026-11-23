@@ -1,4 +1,4 @@
-import { _decorator, Component, resources, Sprite, SpriteFrame } from 'cc';
+import { _decorator, Component, ImageAsset, resources, Sprite, SpriteFrame, Texture2D } from 'cc';
 import { PET_ART } from '../pet/PetData';
 
 const { ccclass } = _decorator;
@@ -6,7 +6,10 @@ const { ccclass } = _decorator;
 /**
  * PetView —— AI娘帧动画组件
  * 依据状态（normal/hungry/overheat/sad/working）循环播放对应切片帧。
- * 帧来源：art/deepseek-girl/{prefix}_{i}（构建期由脚本切片生成）。
+ * 帧来源：resources/art/deepseek-girl/{prefix}_{i}。
+ *
+ * 注意：加载 Texture2D 后运行时构造 SpriteFrame（切片 png 的 meta 只有
+ * texture 子资产，直接按 '/spriteFrame' 路径加载会失败）。
  */
 @ccclass('PetView')
 export class PetView extends Component {
@@ -34,10 +37,12 @@ export class PetView extends Component {
         this.idx = 0;
         for (let i = 0; i < anim.frames; i++) {
             const path = `${PET_ART.dir}/${anim.prefix}_${i}`;
-            resources.load(`${path}/spriteFrame`, SpriteFrame, (err, frame) => {
+            resources.load(`${path}/texture`, Texture2D, (err, tex) => {
                 if (err) { console.warn('[PetView] 帧加载失败', path, err.message); return; }
-                this.frames[i] = frame;
-                if (i === 0 && this.sprite) this.sprite.spriteFrame = frame;
+                const sf = new SpriteFrame();
+                sf.texture = tex;
+                this.frames[i] = sf;
+                if (i === 0 && this.sprite) this.sprite.spriteFrame = sf;
             });
         }
     }
