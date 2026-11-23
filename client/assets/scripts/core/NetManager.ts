@@ -26,9 +26,12 @@ export class NetManager {
     public static get online(): boolean { return NetManager._online; }
     public static get authToken(): string | null { return NetManager.token; }
 
+    /** 微信环境 API 地址：开发期指向本地服务（模拟器勾选"不校验合法域名"即可用 http）；
+     *  上线前替换为备案域名并在小游戏后台配置 request 合法域名 */
+    public static wxApiBase = 'http://127.0.0.1:8800';
+
     private static get base(): string {
-        // ⚠️ 微信小游戏上线前替换为备案域名（小游戏后台需配置 request 合法域名）
-        return WxAdapter.isWx ? 'https://api.your-domain.com' : 'http://127.0.0.1:8800';
+        return WxAdapter.isWx ? NetManager.wxApiBase : 'http://127.0.0.1:8800';
     }
 
     private static readonly TOKEN_KEY = 'ai_relay_token';
