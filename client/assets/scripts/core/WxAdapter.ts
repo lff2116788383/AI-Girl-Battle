@@ -76,12 +76,26 @@ export class WxAdapter {
      * 注意：禁用 fetch（小游戏运行时无此全局对象）。
      */
     public static request(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE', data?: any): Promise<any> {
+        return WxAdapter.requestRaw(url, method, data, null).then(r => r.body);
+    }
+
+    /**
+     * 底层请求：返回 { status, body }，供需要感知 HTTP 状态码的调用方使用。
+     */
+    public static requestRaw(url: string, method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+        data?: any, headers?: { [k: string]: string } | null): Promise<{ status: number; body: any }> {
         if (WxAdapter.isWx) {
             return new Promise((resolve, reject) => {
                 wx.request({
                     url, method, data,
-                    header: { 'Content-Type': 'application/json' },
-                    success: (res: any) => resolve(res.data),
+                    header: Object.assign({ 'Content-Type': 'application/json' }, headers || {}),
+                    success: (res: any) => {
+                        let body = res.data;
+                        if (typeof body === 'string') {
+                            try { body = JSON.parse(body); } catch (e) { /* 保留原文 */ }
+                        }
+                        resolve({ status: res.statusCode, body });
+                    },
                     fail: (err: any) => reject(err),
                 });
             });
@@ -90,8 +104,13 @@ export class WxAdapter {
             const xhr = new XMLHttpRequest();
             xhr.open(method, url, true);
             xhr.setRequestHeader('Content-Type', 'application/json');
+            if (headers) {
+                for (const k of Object.keys(headers)) xhr.setRequestHeader(k, headers[k]);
+            }
             xhr.onload = () => {
-                try { resolve(JSON.parse(xhr.responseText)); } catch (e) { resolve(xhr.responseText); }
+                let body: any = xhr.responseText;
+                try { body = JSON.parse(xhr.responseText); } catch (e) { /* 保留原文 */ }
+                resolve({ status: xhr.status, body });
             };
             xhr.onerror = () => reject(new Error(`请求失败: ${url}`));
             xhr.send(data ? JSON.stringify(data) : undefined);

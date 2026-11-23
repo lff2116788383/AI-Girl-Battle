@@ -3,6 +3,9 @@ import { HomeModel } from '../home/HomeModel';
 import { PetData } from '../pet/PetData';
 import { PetView } from './PetView';
 import { UIBuilder } from './UIBuilder';
+import { WxAdapter } from '../core/WxAdapter';
+import { NetManager } from '../core/NetManager';
+import { ConfigManager } from '../core/ConfigManager';
 
 const { ccclass } = _decorator;
 
@@ -70,10 +73,10 @@ export class HomeUI extends Component {
         // ---- 右侧：AI娘花名册 ----
         const rosterX = W / 2 - 200;
         this.model.pets.forEach((pet, i) => {
-            const y = H / 2 - 240 - i * 250;
-            const card = UIBuilder.panel(`pet_${pet.id}`, this.node, 280, 235, rosterX, y, new Color(36, 44, 62, 255));
+            const y = H / 2 - 230 - i * 205;
+            const card = UIBuilder.panel(`pet_${pet.id}`, this.node, 280, 205, rosterX, y, new Color(36, 44, 62, 255));
             // 立绘（帧动画）
-            const viewNode = UIBuilder.node(`view_${pet.id}`, card, 180, 130, 0, 45);
+            const viewNode = UIBuilder.node(`view_${pet.id}`, card, 150, 105, 0, 38);
             const sp = viewNode.addComponent(Sprite);
             sp.sizeMode = Sprite.SizeMode.RAW;
             viewNode.addComponent(PetView);
@@ -94,7 +97,12 @@ export class HomeUI extends Component {
         UIBuilder.button('btn_debug_day', this.node, 170, 64, 240, by, '调试:+1天',
             () => this.onDebugDay(), new Color(90, 90, 110, 255));
 
-        const logNode = UIBuilder.label('log', this.node, '中转站日常待办：交电费、买饲料、看风扇。\n点「调试:+1天」再「执行每日结算」看账单流程。',
+        const logNode = UIBuilder.label('log', this.node,
+            `中转站日常待办：交电费、买饲料、看风扇。\n点「调试:+1天」再「执行每日结算」看账单流程。\n[${WxAdapter.platform}] ` +
+            (NetManager.online
+                ? `联机✅ 云存档v${NetManager.cloudVersion}`
+                : '本地模式（服务端未连接）') +
+            ` · 配置来源:${ConfigManager.source}v${ConfigManager.configVersion}`,
             22, 0, -H / 2 + 150, new Color(190, 195, 210, 255), W - 60);
         this.logLabel = logNode.getComponent(Label);
         this.logLabel.overflow = Label.Overflow.HEIGHT_ALIGNMENT;

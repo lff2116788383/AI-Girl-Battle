@@ -1,5 +1,6 @@
-import { JsonAsset, resources } from 'cc';
 import { SaveManager } from '../core/SaveManager';
+import { ConfigManager } from '../core/ConfigManager';
+import { NetManager } from '../core/NetManager';
 import { PetData, PetStatus, SpeciesDef, makePet } from '../pet/PetData';
 import { FacilityLevels, Resources, SettlementConfig, SettlementInput, SettlementResult, computeSettlement } from './SettlementEngine';
 
@@ -43,57 +44,79 @@ export class HomeModel {
         return HomeModel._instance;
     }
 
-    /** 加载配置 + 存档（首次运行初始化 MVP 阵容） */
-    public init(): Promise<void> {
-        return new Promise((resolve) => {
-            Promise.all([
-                this.loadJson('config/facilities'),
-                this.loadJson('config/pets'),
-                this.loadJson('config/settlement'),
-            ]).then(([facJson, petJson, setJson]: any[]) => {
-                // 设施定义
-                for (const key of ['dormitory', 'power', 'fan', 'kitchen']) {
-                    const d = facJson.json[key];
-                    this.facilityDefs[key] = { key, name: d.name, desc: d.desc, levels: d.levels };
-                }
-                // 种族表
-                this.species = petJson.json.species;
-                this.upkeep = petJson.json.upkeep;
-                // 结算配置合成（设施容量 + 养护常数 → SettlementConfig）
-                const s = setJson.json.settlement;
-                this.settlementCfg = {
-                    beds: facJson.json.dormitory.levels.map((l: any) => l.beds),
-                    supply: facJson.json.power.levels.map((l: any) => l.supply),
-                    cooling: facJson.json.fan.levels.map((l: any) => l.cooling),
-                    foodPerDay: facJson.json.kitchen.levels.map((l: any) => l.foodPerDay),
-                    powerPerDeployed: this.upkeep.powerPerDeployed,
-                    powerPerRented: this.upkeep.powerPerRented,
-                    heatPerDeployed: this.upkeep.heatPerDeployed,
-                    heatPerRented: this.upkeep.heatPerRented,
-                    foodPerDeployed: this.upkeep.foodPerDeployed,
-                    wagePerRented: this.upkeep.wagePerRented,
-                    goldPerPowerUnit: this.upkeep.goldPerPowerUnit,
-                    maxOfflineDays: s.maxOfflineDays,
-                    offlineGoldPerDay: s.offlineGoldPerDay,
-                    tripHaltHours: s.tripHaltHours,
-                    moodDecayNoBed: s.moodDecayNoBed,
-                    moodSadThreshold: s.moodSadThreshold,
-                };
+    /**
+     * 启动流程（方案文档 §4.6/§4.7 落地）：
+     * 1. 服务端登录（失败静默降级为本地模式）
+     * 2. ConfigManager 三级配置（服务端权威 → 本地缓存 → 垫脚片）
+     * 3. 存档来源：云端优先 → 本地 → 首跑初始化
+     */
+    public async init(): Promise<void> {
+        // 1. 登录 + 2. 配置
+        await NetManager.login();
+        await ConfigManager.load();
 
-                // 存档或首跑
-                const saved = SaveManager.load<HomeSaveData>();
-                if (saved) {
-                    this.facilities = saved.facilities;
-                    this.pets = saved.pets;
-                    this.resources = saved.resources;
-                    this.lastSettledAt = saved.lastSettledAt;
-                    this.trippedUntil = saved.trippedUntil || 0;
-                } else {
-                    this.initFirstRun();
-                }
-                resolve();
-            });
-        });
+        const fac = ConfigManager.get('facilities');
+        const petCfg = ConfigManager.get('pets');
+        const setCfg = ConfigManager.get('settlement');
+        if (!fac || !petCfg || !setCfg) {
+            console.error('[HomeModel] 配置缺失，家园系统无法初始化');
+            return;
+        }
+
+        // 设施定义
+        for (const key of ['dormitory', 'power', 'fan', 'kitchen']) {
+            const d = fac[key];
+            this.facilityDefs[key] = { key, name: d.name, desc: d.desc, levels: d.levels };
+        }
+        // 种族表
+        this.species = petCfg.species;
+        this.upkeep = petCfg.upkeep;
+        // 结算配置合成（设施容量 + 养护常数 → SettlementConfig）
+        const s = setCfg.settlement;
+        this.settlementCfg = {
+            beds: fac.dormitory.levels.map((l: any) => l.beds),
+            supply: fac.power.levels.map((l: any) => l.supply),
+            cooling: fac.fan.levels.map((l: any) => l.cooling),
+            foodPerDay: fac.kitchen.levels.map((l: any) => l.foodPerDay),
+            powerPerDeployed: this.upkeep.powerPerDeployed,
+            powerPerRented: this.upkeep.powerPerRented,
+            heatPerDeployed: this.upkeep.heatPerDeployed,
+            heatPerRented: this.upkeep.heatPerRented,
+            foodPerDeployed: this.upkeep.foodPerDeployed,
+            wagePerRented: this.upkeep.wagePerRented,
+            goldPerPowerUnit: this.upkeep.goldPerPowerUnit,
+            maxOfflineDays: s.maxOfflineDays,
+            offlineGoldPerDay: s.offlineGoldPerDay,
+            tripHaltHours: s.tripHaltHours,
+            moodDecayNoBed: s.moodDecayNoBed,
+            moodSadThreshold: s.moodSadThreshold,
+        };
+
+        // 3. 存档来源决策
+        const hasCloud = await NetManager.pullCloudSave();
+        const local = SaveManager.load<HomeSaveData>();
+
+        if (hasCloud && NetManager.cloudSave) {
+            // 云端优先（跨端续玩的正确语义）；本地较新时以本地为准并回推
+            const cloud = NetManager.cloudSave as HomeSaveData;
+            if (local && local.lastSettledAt > (cloud.lastSettledAt || 0)) {
+                console.log('[HomeModel] 本地存档较新，采用本地并回推云端');
+            } else {
+                this.applySave(cloud);
+            }
+        } else if (local) {
+            this.applySave(local);
+        } else {
+            this.initFirstRun();
+        }
+    }
+
+    private applySave(saved: HomeSaveData): void {
+        this.facilities = saved.facilities;
+        this.pets = saved.pets;
+        this.resources = saved.resources;
+        this.lastSettledAt = saved.lastSettledAt;
+        this.trippedUntil = saved.trippedUntil || 0;
     }
 
     /** 首次运行：MVP 阵容 —— 3 部署 + 1 租用（方案文档 §1.2） */
@@ -110,14 +133,17 @@ export class HomeModel {
         this.persist();
     }
 
+    /** 本地落盘 + 云端异步推送（离线时自动只写本地） */
     public persist(): void {
-        SaveManager.save<HomeSaveData>({
+        const state: HomeSaveData = {
             facilities: this.facilities,
             pets: this.pets,
             resources: this.resources,
             lastSettledAt: this.lastSettledAt,
             trippedUntil: this.trippedUntil,
-        });
+        };
+        SaveManager.save<HomeSaveData>(state);
+        NetManager.pushCloudSave(state);
     }
 
     // ---------------- 负载快照（UI 展示） ----------------
@@ -232,14 +258,5 @@ export class HomeModel {
     public debugAdvanceDays(days: number): void {
         this.lastSettledAt -= days * 86400_000;
         this.persist();
-    }
-
-    private loadJson(path: string): Promise<JsonAsset> {
-        return new Promise((resolve, reject) => {
-            resources.load(path, JsonAsset, (err, asset) => {
-                if (err) { console.error('[HomeModel] 配置加载失败:', path, err); reject(err); return; }
-                resolve(asset);
-            });
-        });
     }
 }
